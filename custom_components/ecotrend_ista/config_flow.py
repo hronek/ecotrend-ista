@@ -23,6 +23,13 @@ from .const_schema import DATA_SCHEMA_EMAIL, URL_SELECTOR
 _LOGGER = logging.getLogger(__name__)
 
 
+class CZSession(requests.Session):
+    def request(self, method, url, *args, **kwargs):
+        if isinstance(url, str):
+            url = url.replace(".ista.de", ".ista.cz")
+        return super().request(method, url, *args, **kwargs)
+
+
 @staticmethod
 @core.callback
 def login_account(hass: core.HomeAssistant, data: MappingProxyType[str, Any], demo: bool = False) -> PyEcotrendIsta:
@@ -31,7 +38,7 @@ def login_account(hass: core.HomeAssistant, data: MappingProxyType[str, Any], de
         email=data.get(CONF_EMAIL, None),
         password=data.get(CONF_PASSWORD, None),
         totp=data.get(CONF_MFA, "").replace(" ", ""),
-        session=requests.Session(),
+        session=CZSession(),
     )
     return account
 
@@ -40,7 +47,7 @@ async def validate_input(hass: core.HomeAssistant, data: dict[str, Any]) -> dict
     """Validate the user input allows us to connect.
     Data has the keys from DATA_SCHEMA_EMAIL with values provided by the user.
     """  # noqa: D205
-    if CONF_URL not in data or data[CONF_URL] != "de_url":
+    if CONF_URL not in data or data[CONF_URL] != "cz_url":
         raise NotSupportedURL()
 
     # pylint: disable=no-value-for-parameter
@@ -91,9 +98,9 @@ class IstaConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
     async def async_step_user(self, user_input=None):
         """Handle the initial step."""
-        return await self.async_step_german(user_input=user_input)
+        return await self.async_step_czech(user_input=user_input)
 
-    async def async_step_german(self, user_input: dict[str, Any] | None = None) -> FlowResult:
+    async def async_step_czech(self, user_input: dict[str, Any] | None = None) -> FlowResult:
         """Handle the initial step."""
         errors: dict[str, str] = {}
         if user_input is not None:
@@ -134,7 +141,7 @@ class IstaConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 )
 
         return self.async_show_form(
-            step_id="german",
+            step_id="czech",
             data_schema=vol.Schema(DATA_SCHEMA_EMAIL),
             errors=errors,
             last_step=True,
@@ -150,18 +157,18 @@ class IstaConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             return self.async_abort(reason="No configuration to import.")
         self._async_abort_entries_match({CONF_EMAIL: import_data[CONF_EMAIL]})
         # Verarbeite die importierten Konfigurationsdaten weiter
-        import_data[CONF_URL] = "de_url"
+        import_data[CONF_URL] = "cz_url"
         import_data[CONF_UPDATE_INTERVAL] = 24
         import_data[CONF_MFA] = ""
         _LOGGER.debug("Starting import of sensor from configuration.yaml - %s", _import_data)
-        return await self.async_step_german(import_data)
+        return await self.async_step_czech(import_data)
 
 
 def validate_options_input(user_input: dict[str, Any]) -> dict[str, str]:
     """Validate the user input allows us to connect. Data has the keys from DATA_SCHEMA with values provided by the user."""
 
     errors = {}
-    if CONF_URL not in user_input or user_input[CONF_URL] != "de_url":
+    if CONF_URL not in user_input or user_input[CONF_URL] != "cz_url":
         errors["base"] = "not_allowed"
     return errors
 
@@ -175,7 +182,7 @@ class IstaOptionsFlowHandler(config_entries.OptionsFlowWithConfigEntry):
         errors: dict[str, str] = {}
         data_schema = vol.Schema(
             {
-                vol.Required(CONF_URL, default=options.get(CONF_URL, "de_url")): URL_SELECTOR,
+                vol.Required(CONF_URL, default=options.get(CONF_URL, "cz_url")): URL_SELECTOR,
                 vol.Required(CONF_UPDATE_INTERVAL, default=options.get(CONF_UPDATE_INTERVAL, 24)): NumberSelector(
                     NumberSelectorConfig(mode=NumberSelectorMode.SLIDER, min=1, max=24)
                 ),

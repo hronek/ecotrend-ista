@@ -36,7 +36,7 @@
         "menu_options": {
           "denmark": "",
           "francais": "https://ma-consommation.ista.lu/",
-          "german": "https://www.ecotrend.ista.de/",
+          "czech": "https://ecotrend.ista.cz/",
           "netherland": "https://mijn.ista.nl/"
         },
         "title": "[%key:common::config_flow::user::title%]"

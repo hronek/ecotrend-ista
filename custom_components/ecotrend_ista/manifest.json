@@ -2,14 +2,14 @@
     "domain": "ecotrend_ista",
     "name": "ista EcoTrend",
     "codeowners": [
-        "@Ludy87"
+        "@hronek"
     ],
     "config_flow": true,
     "dependencies": [],
-    "documentation": "https://github.com/Ludy87/ecotrend-ista/tree/main",
+    "documentation": "https://github.com/hronek/ecotrend-ista",
     "integration_type": "device",
     "iot_class": "cloud_polling",
-    "issue_tracker": "https://github.com/Ludy87/ecotrend-ista/issues",
+    "issue_tracker": "https://github.com/hronek/ecotrend-ista/issues",
     "loggers": ["pyecotrend_ista"],
     "requirements": [
         "pyecotrend_ista==3.4.0",

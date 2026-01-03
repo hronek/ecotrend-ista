@@ -6,8 +6,8 @@
   "consumptionUnitUuids": [
     "26e93f1a-c828-11ea-87d0-0242ac130003"
   ],
-  "country": "DE",
-  "email": "demo@ista.de",
+  "country": "CZ",
+  "email": "demo@ista.cz",
   "emailConfirmed": false,
   "enabled": true,
   "fcmToken": "null",
@@ -15,7 +15,7 @@
   "isDemo": true,
   "keycloakId": null,
   "lastName": "Istamann",
-  "locale": "de_DE",
+  "locale": "cs_CZ",
   "marketing": true,
   "mobileLoginStatus": "pending",
   "mobileNumber": "123456789",

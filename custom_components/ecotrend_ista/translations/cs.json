@@ -1,0 +1,61 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Integrace již byla nakonfigurována",
+      "single_instance_allowed": "Již nakonfigurováno. Je povolena pouze jedna konfigurace."
+    },
+    "create_entry": {
+      "default": "Integrace ista EcoTrend byla vytvořena!"
+    },
+    "error": {
+      "auth_inval": "Přihlášení se nezdařilo. Nesprávná e-mailová adresa, heslo nebo přihlašovací adresa URL.",
+      "cannot_connect": "Připojení se nezdařilo",
+      "no_email": "Neplatný e-mail",
+      "not_allowed": "Vybraná adresa URL zatím není podporována",
+      "timeout_connect": "Časový limit navazování spojení vypršel",
+      "unknown": "Neočekávaná chyba"
+    },
+    "step": {
+      "czech": {
+        "data": {
+          "URL": "Přihlašovací URL",
+          "email": "E-mailová adresa",
+          "mfa_code": "Dvoufaktorové ověření",
+          "password": "Heslo",
+          "update_interval": "Interval aktualizace (h)"
+        },
+        "description": "Ověření účtu",
+        "title": "Nastavit ista EcoTrend"
+      },
+      "user": {
+        "data": {
+          "URL": "Přihlašovací URL",
+          "email": "E-mailová adresa",
+          "password": "Heslo"
+        },
+        "description": "Ověření účtu",
+        "menu_options": {
+          "denmark": "",
+          "francais": "https://ma-consommation.ista.lu/",
+          "czech": "https://ecotrend.ista.cz/",
+          "netherland": "https://mijn.ista.nl/"
+        },
+        "title": "Nastavit ista EcoTrend"
+      }
+    }
+  },
+  "options": {
+    "error": {
+      "not_allowed": "Vybraná adresa URL zatím není podporována"
+    },
+    "step": {
+      "init": {
+        "data": {
+          "URL": "Přihlašovací URL",
+          "update_interval": "Interval aktualizace (h)"
+        },
+        "title": "Nastavení ista EcoTrend"
+      }
+    }
+  }
+}
