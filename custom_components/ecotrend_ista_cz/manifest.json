@@ -1,6 +1,6 @@
 {
-    "domain": "ecotrend_ista",
-    "name": "ista EcoTrend",
+    "domain": "ecotrend_ista_cz",
+    "name": "ista EcoTrend CZ",
     "codeowners": [
         "@hronek"
     ],
