@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import copy
+import json
 import logging
 from types import MappingProxyType
 from typing import Any
@@ -27,6 +28,28 @@ class CZSession(requests.Session):
     def request(self, method, url, *args, **kwargs):
         if isinstance(url, str):
             url = url.replace(".ista.de", ".ista.cz")
+        
+        # Intercept login request to replace email with username if needed
+        # We assume checking for email AND password in json body is sufficient to identify login
+        if kwargs.get("json"):
+            payload = kwargs["json"]
+            if isinstance(payload, dict) and "email" in payload and "password" in payload:
+                 # Check if we should copy 'email' to 'username'
+                 payload = payload.copy()
+                 payload["username"] = payload.pop("email")
+                 kwargs["json"] = payload
+        elif kwargs.get("data"):
+             # Sometimes data can be a json string
+             try:
+                 data_str = kwargs["data"]
+                 if isinstance(data_str, str):
+                     payload = json.loads(data_str)
+                     if isinstance(payload, dict) and "email" in payload and "password" in payload:
+                         payload["username"] = payload.pop("email")
+                         kwargs["data"] = json.dumps(payload)
+             except (json.JSONDecodeError, TypeError):
+                 pass
+
         return super().request(method, url, *args, **kwargs)
 
 
