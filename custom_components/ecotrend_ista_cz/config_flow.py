@@ -30,27 +30,43 @@ class CZSession(requests.Session):
             url = url.replace(".ista.de", ".ista.cz")
         
         # Intercept login request to replace email with username if needed
-        # We assume checking for email AND password in json body is sufficient to identify login
         if kwargs.get("json"):
             payload = kwargs["json"]
             if isinstance(payload, dict) and "email" in payload and "password" in payload:
-                 # Check if we should copy 'email' to 'username'
                  payload = payload.copy()
                  payload["username"] = payload.pop("email")
                  kwargs["json"] = payload
+                 _LOGGER.debug("CZSession: Modified JSON payload (email -> username)")
         elif kwargs.get("data"):
-             # Sometimes data can be a json string
-             try:
-                 data_str = kwargs["data"]
-                 if isinstance(data_str, str):
-                     payload = json.loads(data_str)
+             data = kwargs["data"]
+             if isinstance(data, dict) and "email" in data and "password" in data:
+                  data = data.copy()
+                  data["username"] = data.pop("email")
+                  kwargs["data"] = data
+                  _LOGGER.debug("CZSession: Modified DATA dict payload (email -> username)")
+             elif isinstance(data, str):
+                 try:
+                     payload = json.loads(data)
                      if isinstance(payload, dict) and "email" in payload and "password" in payload:
                          payload["username"] = payload.pop("email")
                          kwargs["data"] = json.dumps(payload)
-             except (json.JSONDecodeError, TypeError):
-                 pass
+                         _LOGGER.debug("CZSession: Modified DATA string payload (email -> username)")
+                 except (json.JSONDecodeError, TypeError):
+                     pass
 
-        return super().request(method, url, *args, **kwargs)
+        _LOGGER.debug("CZSession Request: %s %s", method, url)
+        # We don't log the full payload here to avoid logging password in clear text if possible, 
+        # but for debugging we might need it. Let's log it without password.
+        debug_kwargs = copy.deepcopy(kwargs)
+        if debug_kwargs.get("json") and "password" in debug_kwargs["json"]:
+            debug_kwargs["json"]["password"] = "********"
+        if debug_kwargs.get("data") and isinstance(debug_kwargs["data"], dict) and "password" in debug_kwargs["data"]:
+            debug_kwargs["data"]["password"] = "********"
+        _LOGGER.debug("CZSession Args: %s", debug_kwargs)
+
+        response = super().request(method, url, *args, **kwargs)
+        _LOGGER.debug("CZSession Response: %s %s", response.status_code, response.text[:1000])
+        return response
 
 
 @staticmethod
