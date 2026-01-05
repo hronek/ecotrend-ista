@@ -19,7 +19,7 @@
       "czech": {
         "data": {
           "URL": "Přihlašovací URL",
-          "email": "E-mailová adresa",
+          "email": "E-mail / Uživatelské jméno",
           "mfa_code": "Dvoufaktorové ověření",
           "password": "Heslo",
           "update_interval": "Interval aktualizace (h)"
@@ -30,7 +30,7 @@
       "user": {
         "data": {
           "URL": "Přihlašovací URL",
-          "email": "E-mailová adresa",
+          "email": "E-mail / Uživatelské jméno",
           "password": "Heslo"
         },
         "description": "Ověření účtu",

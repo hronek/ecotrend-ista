@@ -51,10 +51,10 @@ async def validate_input(hass: core.HomeAssistant, data: dict[str, Any]) -> dict
         raise NotSupportedURL()
 
     # pylint: disable=no-value-for-parameter
-    try:
-        vol.Email()(data.get(CONF_EMAIL))
-    except vol.Invalid as error:
-        raise vol.Invalid(error) from error
+    # try:
+    #     vol.Email()(data.get(CONF_EMAIL))
+    # except vol.Invalid as error:
+    #     raise vol.Invalid(error) from error
 
     account = login_account(hass, data)
 

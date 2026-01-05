@@ -44,7 +44,7 @@ URL_SELECTOR: SelectSelector = SelectSelector(
 )
 
 DATA_SCHEMA_EMAIL = {
-    vol.Required(CONF_EMAIL): TextSelector(TextSelectorConfig(type=TextSelectorType.EMAIL, multiline=False)),
+    vol.Required(CONF_EMAIL): TextSelector(TextSelectorConfig(type=TextSelectorType.TEXT, multiline=False)),
     vol.Required(CONF_PASSWORD): TextSelector(TextSelectorConfig(type=TextSelectorType.PASSWORD, multiline=False)),
     vol.Required(CONF_URL, default="cz_url"): URL_SELECTOR,
     vol.Optional(CONF_MFA, default=""): TextSelector(TextSelectorConfig(type=TextSelectorType.TEXT, multiline=False)),
